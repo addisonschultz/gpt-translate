@@ -67,7 +67,8 @@ const validateCommandChecker = async (userCommand, match) => {
 }
 
 export const postError = async (message: string) => {
-  await gitPostComment(`❌${message}`)
+  console.log(message)
+  // await gitPostComment(`❌${message}`)
   setFailed(message)
   process.exit(1)
 }
