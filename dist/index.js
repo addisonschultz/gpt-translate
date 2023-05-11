@@ -18215,27 +18215,28 @@ const promises_1 = __importDefault(__nccwpck_require__(3292));
 const gpt_1 = __nccwpck_require__(6747);
 const utils_1 = __nccwpck_require__(8167);
 const git_1 = __nccwpck_require__(9539);
-const github_1 = __nccwpck_require__(595);
 const publishTranslate = async (inputFilePath, outputFilePath, targetLang) => {
     await (0, git_1.gitSetConfig)();
-    const branch = (0, utils_1.isPR)() ? await (0, git_1.gitCheckout)() : await (0, git_1.gitCreateBranch)();
+    // const branch = isPR() ? await gitCheckout() : await gitCreateBranch()
     const content = await promises_1.default.readFile(inputFilePath, 'utf-8');
     const translated = await (0, gpt_1.translate)(content, targetLang);
     // Check if the translation is same as the original
     if (await (0, utils_1.isFileExists)(outputFilePath)) {
         const fileContent = await promises_1.default.readFile(outputFilePath, 'utf-8');
-        if (fileContent === translated) {
-            await (0, git_1.gitPostComment)('⛔ The result of translation was same as the existed output file.');
-            return;
-        }
+        // if (fileContent === translated) {
+        //   await gitPostComment(
+        //     '⛔ The result of translation was same as the existed output file.',
+        //   )
+        //   return
+        // }
     }
     await (0, utils_1.createFile)(translated, outputFilePath);
-    await (0, git_1.gitCommitPush)(branch, outputFilePath);
+    // await gitCommitPush(branch, outputFilePath)
     if ((0, utils_1.isPR)()) {
-        await (0, git_1.gitPostComment)('🎉Translation completed!');
+        // await gitPostComment('🎉Translation completed!')
         return;
     }
-    const issueNumber = github_1.context.issue.number;
+    // const issueNumber = context.issue.number
     const title = '🌐 Add LLM Translations';
     const body = `## ✅ LLM Translation completed
   |**Name**|**Value**|
@@ -18243,10 +18244,11 @@ const publishTranslate = async (inputFilePath, outputFilePath, targetLang) => {
   |**Source**|\`${inputFilePath}\`|
   |**Output**|\`${outputFilePath}\`|
   |**Language**|${targetLang}|
-  |**Issue**|#${issueNumber}|
   `;
-    await (0, git_1.gitCreatePullRequest)(branch, title, body);
-    await (0, git_1.gitPostComment)('🎉Translation PR created!');
+    console.log(title);
+    console.log(body);
+    // await gitCreatePullRequest(branch, title, body)
+    // await gitPostComment('🎉Translation PR created!')
 };
 exports.publishTranslate = publishTranslate;
 
@@ -18266,7 +18268,6 @@ exports.isPR = exports.postError = exports.getCommandParams = exports.isFileExis
 const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const core_1 = __nccwpck_require__(5293);
-const git_1 = __nccwpck_require__(9539);
 const github_1 = __nccwpck_require__(595);
 const COMMAND_USAGE = `usage:
 \`\`\`
@@ -18325,7 +18326,8 @@ const validateCommandChecker = async (userCommand, match) => {
     }
 };
 const postError = async (message) => {
-    await (0, git_1.gitPostComment)(`❌${message}`);
+    console.log(message);
+    // await gitPostComment(`❌${message}`)
     (0, core_1.setFailed)(message);
     process.exit(1);
 };
@@ -18587,13 +18589,17 @@ async function main() {
         await (0, utils_1.postError)('You have no permission to use this bot.');
     }
     // Array of languages set in action workflow
-    const languages = (0, core_1.getInput)('languages');
-    const inputFilePath = 'README.md';
-    const outputFilePath = `${languages}/README-${languages}.md`;
+    const languages = (0, core_1.getInput)('languages')
+        .split(',')
+        .map((item) => item.trim());
+    // Log languages
     console.log('LANGUAGES FROM CONFIG', languages);
-    // const { inputFilePath, outputFilePath, targetLang } = await getCommandParams()
-    // await publishTranslate(inputFilePath, outputFilePath, targetLang)
-    await (0, translate_1.publishTranslate)(inputFilePath, outputFilePath, languages);
+    languages.map(async (language) => {
+        console.log('CURRENT LANGUAGE', language);
+        const inputFilePath = 'README.md';
+        const outputFilePath = `${languages}/README-${languages}.md`;
+        await (0, translate_1.publishTranslate)(inputFilePath, outputFilePath, language);
+    });
 }
 main().catch((e) => (0, utils_1.postError)(e));
 

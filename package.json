@@ -10,7 +10,8 @@
   "author": "Ryuya",
   "license": "MIT",
   "scripts": {
-    "build": "ncc build src/index.ts -o dist"
+    "build": "ncc build src/index.ts -o dist",
+    "publish-dev": "npm run build && git add . && git commit -m 'update' && git push"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
