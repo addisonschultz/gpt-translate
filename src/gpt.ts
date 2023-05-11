@@ -15,6 +15,7 @@ const configuration = new Configuration({ apiKey: API_KEY })
 const openAIApi = new OpenAIApi(configuration)
 
 export const askGPT = async (text: string, prompt: string): Promise<string> => {
+  console.log('API KEY', API_KEY)
   const {
     data: {
       choices: [{ message: { content: content } = { content: '' } }],
