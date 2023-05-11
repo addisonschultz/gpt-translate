@@ -17,7 +17,7 @@ export const publishTranslate = async (
   targetLang: string,
 ) => {
   await gitSetConfig()
-  const branch = isPR() ? await gitCheckout() : await gitCreateBranch()
+  // const branch = isPR() ? await gitCheckout() : await gitCreateBranch()
 
   const content = await fs.readFile(inputFilePath, 'utf-8')
   const translated = await translate(content, targetLang)
@@ -25,23 +25,23 @@ export const publishTranslate = async (
   // Check if the translation is same as the original
   if (await isFileExists(outputFilePath)) {
     const fileContent = await fs.readFile(outputFilePath, 'utf-8')
-    if (fileContent === translated) {
-      await gitPostComment(
-        '⛔ The result of translation was same as the existed output file.',
-      )
-      return
-    }
+    // if (fileContent === translated) {
+    //   await gitPostComment(
+    //     '⛔ The result of translation was same as the existed output file.',
+    //   )
+    //   return
+    // }
   }
 
   await createFile(translated, outputFilePath)
 
-  await gitCommitPush(branch, outputFilePath)
+  // await gitCommitPush(branch, outputFilePath)
   if (isPR()) {
-    await gitPostComment('🎉Translation completed!')
+    // await gitPostComment('🎉Translation completed!')
     return
   }
 
-  const issueNumber = context.issue.number
+  // const issueNumber = context.issue.number
   const title = '🌐 Add LLM Translations'
   const body = `## ✅ LLM Translation completed
   |**Name**|**Value**|
@@ -49,9 +49,10 @@ export const publishTranslate = async (
   |**Source**|\`${inputFilePath}\`|
   |**Output**|\`${outputFilePath}\`|
   |**Language**|${targetLang}|
-  |**Issue**|#${issueNumber}|
   `
+  console.log(title)
+  console.log(body)
 
-  await gitCreatePullRequest(branch, title, body)
-  await gitPostComment('🎉Translation PR created!')
+  // await gitCreatePullRequest(branch, title, body)
+  // await gitPostComment('🎉Translation PR created!')
 }
