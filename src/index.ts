@@ -11,14 +11,18 @@ async function main() {
 
   // Array of languages set in action workflow
   const languages = getInput('languages')
-  const inputFilePath = 'README.md'
-  const outputFilePath = `${languages}/README-${languages}.md`
+    .split(',')
+    .map((item) => item.trim())
 
+  // Log languages
   console.log('LANGUAGES FROM CONFIG', languages)
-  // const { inputFilePath, outputFilePath, targetLang } = await getCommandParams()
-  // await publishTranslate(inputFilePath, outputFilePath, targetLang)
 
-  await publishTranslate(inputFilePath, outputFilePath, languages)
+  languages.map(async (language) => {
+    console.log('CURRENT LANGUAGE', language)
+    const inputFilePath = 'README.md'
+    const outputFilePath = `${languages}/README-${languages}.md`
+    await publishTranslate(inputFilePath, outputFilePath, language)
+  })
 }
 
 main().catch((e) => postError(e))
