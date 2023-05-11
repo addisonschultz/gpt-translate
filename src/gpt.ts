@@ -15,7 +15,6 @@ const configuration = new Configuration({ apiKey: API_KEY })
 const openAIApi = new OpenAIApi(configuration)
 
 export const askGPT = async (text: string, prompt: string): Promise<string> => {
-  console.log('API KEY', API_KEY)
   const {
     data: {
       choices: [{ message: { content: content } = { content: '' } }],
@@ -55,6 +54,7 @@ export const translate = async (
   const contentChunks = text.split(splitter)
   for (let i = 0; i < contentChunks.length; i++) {
     if (encode(chunk + contentChunks[i]).length > maxToken) {
+      console.log('ABOUT TO ASK GPT')
       const translatedContent = await askGPT(chunk, prompt)
       translated += translatedContent + splitter
       chunk = ''

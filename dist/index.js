@@ -18160,7 +18160,6 @@ if (!API_KEY) {
 const configuration = new openai_1.Configuration({ apiKey: API_KEY });
 const openAIApi = new openai_1.OpenAIApi(configuration);
 const askGPT = async (text, prompt) => {
-    console.log('API KEY', API_KEY);
     const { data: { choices: [{ message: { content: content } = { content: '' } }], }, } = await openAIApi.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
@@ -18187,6 +18186,7 @@ const translate = async (text, targetLanguage, maxToken = 2000, splitter = `\n\n
     const contentChunks = text.split(splitter);
     for (let i = 0; i < contentChunks.length; i++) {
         if ((0, gpt_3_encoder_1.encode)(chunk + contentChunks[i]).length > maxToken) {
+            console.log('ABOUT TO ASK GPT');
             const translatedContent = await (0, exports.askGPT)(chunk, prompt);
             translated += translatedContent + splitter;
             chunk = '';
