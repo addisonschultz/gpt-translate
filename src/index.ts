@@ -3,7 +3,7 @@ import { getCommandParams, postError } from './utils'
 import { publishTranslate } from './translate'
 import { authorizeUser } from './git'
 import { getInput } from '@actions/core'
-import fs from 'fs/promises'
+import { readdir } from 'fs/promises'
 
 async function main() {
   const isAuthorized = await authorizeUser()
@@ -19,16 +19,21 @@ async function main() {
   const srcDir = getInput('srcDir')
 
   // Log languages
-  console.log('Currently Processing', languages, srcDir)
+  console.log('Currently Processing', languages, `./${srcDir}`)
 
   languages.map(async (language) => {
     console.log('CURRENT LANGUAGE', language)
 
     // const outputFilePath = `${languages}/README-${languages}.md`
 
+    try {
+      const files = await readdir(`./${srcDir}`)
+      for (const file of files) console.log(file)
+    } catch (err) {
+      console.error(err)
+    }
     // Get directory of files
-    await fs.readdir(`./${srcDir}`, (_err: any, files: any[]) => {
-      console.log('Reading :', `./${srcDir}`)
+    await readdir(`./${srcDir}`, (_err: any, files: any[]) => {
       files.forEach((file: any) => {
         console.log(file)
       })

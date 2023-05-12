@@ -10933,50 +10933,6 @@ exports.authorizeUser = authorizeUser;
 
 /***/ }),
 
-/***/ 6803:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-// @ts-nocheck
-const utils_1 = __nccwpck_require__(8167);
-const git_1 = __nccwpck_require__(9539);
-const core_1 = __nccwpck_require__(5293);
-const promises_1 = __importDefault(__nccwpck_require__(3292));
-async function main() {
-    const isAuthorized = await (0, git_1.authorizeUser)();
-    if (!isAuthorized) {
-        await (0, utils_1.postError)('You have no permission to use this bot.');
-    }
-    // Array of languages set in action workflow
-    const languages = (0, core_1.getInput)('languages')
-        .split(',')
-        .map((item) => item.trim());
-    const srcDir = (0, core_1.getInput)('srcDir');
-    // Log languages
-    console.log('Currently Processing', languages, srcDir);
-    languages.map(async (language) => {
-        console.log('CURRENT LANGUAGE', language);
-        // const outputFilePath = `${languages}/README-${languages}.md`
-        // Get directory of files
-        await promises_1.default.readdir(`./${srcDir}`, (_err, files) => {
-            console.log('Reading :', `./${srcDir}`);
-            files.forEach((file) => {
-                console.log(file);
-            });
-        });
-        // await publishTranslate(inputFilePath, outputFilePath, language)
-    });
-}
-main().catch((e) => (0, utils_1.postError)(e));
-
-
-/***/ }),
-
 /***/ 8167:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -11270,12 +11226,54 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(6803);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+var exports = __webpack_exports__;
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+// @ts-nocheck
+const utils_1 = __nccwpck_require__(8167);
+const git_1 = __nccwpck_require__(9539);
+const core_1 = __nccwpck_require__(5293);
+const promises_1 = __nccwpck_require__(3292);
+async function main() {
+    const isAuthorized = await (0, git_1.authorizeUser)();
+    if (!isAuthorized) {
+        await (0, utils_1.postError)('You have no permission to use this bot.');
+    }
+    // Array of languages set in action workflow
+    const languages = (0, core_1.getInput)('languages')
+        .split(',')
+        .map((item) => item.trim());
+    const srcDir = (0, core_1.getInput)('srcDir');
+    // Log languages
+    console.log('Currently Processing', languages, `./${srcDir}`);
+    languages.map(async (language) => {
+        console.log('CURRENT LANGUAGE', language);
+        // const outputFilePath = `${languages}/README-${languages}.md`
+        try {
+            const files = await (0, promises_1.readdir)(`./${srcDir}`);
+            for (const file of files)
+                console.log(file);
+        }
+        catch (err) {
+            console.error(err);
+        }
+        // Get directory of files
+        await (0, promises_1.readdir)(`./${srcDir}`, (_err, files) => {
+            files.forEach((file) => {
+                console.log(file);
+            });
+        });
+        // await publishTranslate(inputFilePath, outputFilePath, language)
+    });
+}
+main().catch((e) => (0, utils_1.postError)(e));
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;
