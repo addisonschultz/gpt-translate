@@ -1,7 +1,9 @@
+// @ts-nocheck
 import { getCommandParams, postError } from './utils'
 import { publishTranslate } from './translate'
 import { authorizeUser } from './git'
 import { getInput } from '@actions/core'
+import fs from 'fs/promises'
 
 async function main() {
   const isAuthorized = await authorizeUser()
@@ -14,14 +16,24 @@ async function main() {
     .split(',')
     .map((item) => item.trim())
 
+  const srcDir = getInput('srcDir')
+
   // Log languages
-  console.log('LANGUAGES FROM CONFIG', languages)
+  console.log('Currently Processing', languages, srcDir)
 
   languages.map(async (language) => {
     console.log('CURRENT LANGUAGE', language)
-    const inputFilePath = 'README.md'
+
     const outputFilePath = `${languages}/README-${languages}.md`
-    await publishTranslate(inputFilePath, outputFilePath, language)
+
+    // Get directory of files
+    fs.readdir(`./${srcDir}`, (_err: any, files: any[]) => {
+      files.forEach((file: any) => {
+        console.log(file)
+      })
+    })
+
+    // await publishTranslate(inputFilePath, outputFilePath, language)
   })
 }
 
