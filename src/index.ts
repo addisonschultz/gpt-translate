@@ -27,7 +27,7 @@ async function main() {
 
     // const outputFilePath = `${languages}/README-${languages}.md`
 
-    getDirectories(`./${srcDir}`, function (err, res) {
+    await getDirectories(`./${srcDir}`, function (err, res) {
       if (err) {
         console.log('Error', err)
       } else {

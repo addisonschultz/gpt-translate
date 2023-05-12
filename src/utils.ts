@@ -79,6 +79,6 @@ export const isPR = () => {
   return !!payload.issue?.pull_request
 }
 
-export const getDirectories = (src, callback) => {
+export const getDirectories = async (src, callback) => {
   glob(src + '/**/*', callback)
 }

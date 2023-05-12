@@ -13374,7 +13374,7 @@ const isPR = () => {
     return !!((_a = payload.issue) === null || _a === void 0 ? void 0 : _a.pull_request);
 };
 exports.isPR = isPR;
-const getDirectories = (src, callback) => {
+const getDirectories = async (src, callback) => {
     (0, glob_1.glob)(src + '/**/*', callback);
 };
 exports.getDirectories = getDirectories;
@@ -18844,7 +18844,7 @@ async function main() {
     languages.map(async (language) => {
         console.log('CURRENT LANGUAGE', language);
         // const outputFilePath = `${languages}/README-${languages}.md`
-        (0, utils_2.getDirectories)(`./${srcDir}`, function (err, res) {
+        await (0, utils_2.getDirectories)(`./${srcDir}`, function (err, res) {
             if (err) {
                 console.log('Error', err);
             }
