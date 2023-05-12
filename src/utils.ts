@@ -3,6 +3,7 @@ import path from 'path'
 import { setFailed } from '@actions/core'
 import { gitPostComment } from './git'
 import { context } from '@actions/github'
+import { glob } from 'glob'
 
 type AdjustedRegex = RegExpExecArray & { groups: {} }
 
@@ -76,4 +77,8 @@ export const postError = async (message: string) => {
 export const isPR = () => {
   const { payload } = context
   return !!payload.issue?.pull_request
+}
+
+export const getDirectories = (src, callback) => {
+  glob(src + '/**/*', callback)
 }

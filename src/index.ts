@@ -4,6 +4,7 @@ import { publishTranslate } from './translate'
 import { authorizeUser } from './git'
 import { getInput } from '@actions/core'
 import { readdir } from 'fs/promises'
+import { getDirectories } from './utils'
 
 async function main() {
   const isAuthorized = await authorizeUser()
@@ -26,17 +27,12 @@ async function main() {
 
     // const outputFilePath = `${languages}/README-${languages}.md`
 
-    try {
-      const files = await readdir(`./${srcDir}`)
-      for (const file of files) console.log(file)
-    } catch (err) {
-      console.error(err)
-    }
-    // Get directory of files
-    await readdir(`./${srcDir}`, (_err: any, files: any[]) => {
-      files.forEach((file: any) => {
-        console.log(file)
-      })
+    getDirectories(`./${srcDir}`, function (err, res) {
+      if (err) {
+        console.log('Error', err)
+      } else {
+        console.log(res)
+      }
     })
 
     // await publishTranslate(inputFilePath, outputFilePath, language)
