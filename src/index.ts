@@ -27,7 +27,7 @@ async function main() {
     const outputFilePath = `${languages}/README-${languages}.md`
 
     // Get directory of files
-    fs.readdir(`./${srcDir}`, (_err: any, files: any[]) => {
+    await fs.readdir(`./${srcDir}`, (_err: any, files: any[]) => {
       files.forEach((file: any) => {
         console.log(file)
       })

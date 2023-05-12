@@ -10963,7 +10963,7 @@ async function main() {
         console.log('CURRENT LANGUAGE', language);
         const outputFilePath = `${languages}/README-${languages}.md`;
         // Get directory of files
-        promises_1.default.readdir(`./${srcDir}`, (_err, files) => {
+        await promises_1.default.readdir(`./${srcDir}`, (_err, files) => {
             files.forEach((file) => {
                 console.log(file);
             });
