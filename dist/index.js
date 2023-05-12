@@ -10961,9 +10961,10 @@ async function main() {
     console.log('Currently Processing', languages, srcDir);
     languages.map(async (language) => {
         console.log('CURRENT LANGUAGE', language);
-        const outputFilePath = `${languages}/README-${languages}.md`;
+        // const outputFilePath = `${languages}/README-${languages}.md`
         // Get directory of files
         await promises_1.default.readdir(`./${srcDir}`, (_err, files) => {
+            console.log('Reading :', `./${srcDir}`);
             files.forEach((file) => {
                 console.log(file);
             });

@@ -24,10 +24,11 @@ async function main() {
   languages.map(async (language) => {
     console.log('CURRENT LANGUAGE', language)
 
-    const outputFilePath = `${languages}/README-${languages}.md`
+    // const outputFilePath = `${languages}/README-${languages}.md`
 
     // Get directory of files
     await fs.readdir(`./${srcDir}`, (_err: any, files: any[]) => {
+      console.log('Reading :', `./${srcDir}`)
       files.forEach((file: any) => {
         console.log(file)
       })
