@@ -13375,7 +13375,9 @@ const isPR = () => {
 };
 exports.isPR = isPR;
 const getDirectories = async (src, callback) => {
-    (0, glob_1.glob)(src + '/**/*', callback);
+    const directories = await (0, glob_1.glob)(src + '/**/*', callback);
+    console.log('GLOB DIRECTORIES', directories);
+    return directories;
 };
 exports.getDirectories = getDirectories;
 
@@ -18841,19 +18843,24 @@ async function main() {
     const srcDir = (0, core_1.getInput)('srcDir');
     // Log languages
     console.log('Currently Processing', languages, `./${srcDir}`);
-    languages.map(async (language) => {
+    var results = await Promise.all(languages.map(async (language) => {
         console.log('CURRENT LANGUAGE', language);
-        // const outputFilePath = `${languages}/README-${languages}.md`
-        await (0, utils_2.getDirectories)(`./${srcDir}`, function (err, res) {
-            if (err) {
-                console.log('Error', err);
-            }
-            else {
-                console.log(res);
-            }
-        });
-        // await publishTranslate(inputFilePath, outputFilePath, language)
-    });
+        const directory = await (0, utils_2.getDirectories)(`./${srcDir}`);
+        return directory;
+    }));
+    console.log(results);
+    // languages.map(async (language) => {
+    //   console.log('CURRENT LANGUAGE', language)
+    //   // const outputFilePath = `${languages}/README-${languages}.md`
+    //   await getDirectories(`./${srcDir}`, function (err, res) {
+    //     if (err) {
+    //       console.log('Error', err)
+    //     } else {
+    //       console.log(res)
+    //     }
+    //   })
+    //   // await publishTranslate(inputFilePath, outputFilePath, language)
+    // })
 }
 main().catch((e) => (0, utils_1.postError)(e));
 

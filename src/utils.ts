@@ -80,5 +80,7 @@ export const isPR = () => {
 }
 
 export const getDirectories = async (src, callback) => {
-  glob(src + '/**/*', callback)
+  const directories = await glob(src + '/**/*', callback)
+  console.log('GLOB DIRECTORIES', directories)
+  return directories
 }
