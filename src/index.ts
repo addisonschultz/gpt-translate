@@ -22,31 +22,22 @@ async function main() {
   // Log languages
   console.log('Currently Processing', languages, `./${srcDir}`)
 
-  var results: string[] = await Promise.all(
+  var allDirectoryMappings: string[] = await Promise.all(
     languages.map(async (language): Promise<string> => {
-      console.log('CURRENT LANGUAGE', language)
-      const directory = await getDirectories(`./${srcDir}`)
-      return directory
+      const directoryMap = await getDirectories(`./${srcDir}`)
+
+      await Promise.all(
+        directoryMap.map(async (inputDir): Promise => {
+          const outputFilePath = `${language}/${inputDir}`
+          await publishTranslate(inputDir, outputFilePath, language)
+        }),
+      )
+
+      return directoryMap
     }),
   )
 
-  console.log(results)
-
-  // languages.map(async (language) => {
-  //   console.log('CURRENT LANGUAGE', language)
-
-  //   // const outputFilePath = `${languages}/README-${languages}.md`
-
-  //   await getDirectories(`./${srcDir}`, function (err, res) {
-  //     if (err) {
-  //       console.log('Error', err)
-  //     } else {
-  //       console.log(res)
-  //     }
-  //   })
-
-  //   // await publishTranslate(inputFilePath, outputFilePath, language)
-  // })
+  console.log('allDirectoryMappings', allDirectoryMappings)
 }
 
 main().catch((e) => postError(e))
