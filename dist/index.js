@@ -26192,13 +26192,22 @@ async function main() {
     const allSrcFiles = await (0, utils_2.getDirectories)(`./${srcDir}`);
     // Log languages
     console.log('Currently Processing', languages, `./${srcDir}`);
-    await Promise.all(languages.map(async (language) => {
-        await Promise.all(allSrcFiles.map(async (file) => {
-            const outputFilePath = `${language}/${file}`;
-            const translation = await (0, translate_1.publishTranslate)(file, outputFilePath, language);
-            console.log('Translation', translation);
-        }));
-    }));
+    // await Promise.all(
+    //   languages.map(async (language) => {
+    //     await Promise.all(
+    //       allSrcFiles.map(async (file) => {
+    //         const outputFilePath = `${language}/${file}`
+    //         const translation = await publishTranslate(
+    //           file,
+    //           outputFilePath,
+    //           language,
+    //         )
+    //         console.log('Translation', translation)
+    //       }),
+    //     )
+    //   }),
+    // )
+    await (0, translate_1.publishTranslate)('en/testing.md', 'fr/testing-french.md', 'french');
 }
 main().catch((e) => (0, utils_1.postError)(e));
 

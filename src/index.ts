@@ -23,21 +23,22 @@ async function main() {
   // Log languages
   console.log('Currently Processing', languages, `./${srcDir}`)
 
-  await Promise.all(
-    languages.map(async (language) => {
-      await Promise.all(
-        allSrcFiles.map(async (file) => {
-          const outputFilePath = `${language}/${file}`
-          const translation = await publishTranslate(
-            file,
-            outputFilePath,
-            language,
-          )
-          console.log('Translation', translation)
-        }),
-      )
-    }),
-  )
+  // await Promise.all(
+  //   languages.map(async (language) => {
+  //     await Promise.all(
+  //       allSrcFiles.map(async (file) => {
+  //         const outputFilePath = `${language}/${file}`
+  //         const translation = await publishTranslate(
+  //           file,
+  //           outputFilePath,
+  //           language,
+  //         )
+  //         console.log('Translation', translation)
+  //       }),
+  //     )
+  //   }),
+  // )
+  await publishTranslate('en/testing.md', 'fr/testing-french.md', 'french')
 }
 
 main().catch((e) => postError(e))
