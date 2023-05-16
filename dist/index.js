@@ -20698,7 +20698,7 @@ const isPR = () => {
 };
 exports.isPR = isPR;
 const getDirectories = async (src, callback) => {
-    const directories = await (0, glob_1.glob)(src + '/**/*', callback);
+    const directories = await (0, glob_1.glob)(src + '/**/*.{md,MD}', callback);
     console.log('GLOB DIRECTORIES', directories);
     return directories;
 };
@@ -26194,6 +26194,7 @@ async function main() {
     var allDirectoryMappings = await Promise.all(languages.map(async (language) => {
         const directoryMap = await (0, utils_2.getDirectories)(`./${srcDir}`);
         await Promise.all(directoryMap.map(async (inputDir) => {
+            // Publish a translation for each directory found
             const outputFilePath = `${language}/${inputDir}`;
             await (0, translate_1.publishTranslate)(inputDir, outputFilePath, language);
         }));
