@@ -27,8 +27,8 @@ async function main() {
     languages.map(async (language) => {
       await Promise.all(
         allSrcFiles.map(async (file) => {
-          const outputFilePath = `${language}/${inputDir}`
-          return await publishTranslate(inputDir, outputFilePath, language)
+          const outputFilePath = `${language}/${file}`
+          return await publishTranslate(file, outputFilePath, language)
         }),
       )
     }),

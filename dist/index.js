@@ -26194,8 +26194,8 @@ async function main() {
     console.log('Currently Processing', languages, `./${srcDir}`);
     await Promise.all(languages.map(async (language) => {
         await Promise.all(allSrcFiles.map(async (file) => {
-            const outputFilePath = `${language}/${inputDir}`;
-            return await (0, translate_1.publishTranslate)(inputDir, outputFilePath, language);
+            const outputFilePath = `${language}/${file}`;
+            return await (0, translate_1.publishTranslate)(file, outputFilePath, language);
         }));
     }));
     // var allDirectoryMappings: string[] = await Promise.all(
