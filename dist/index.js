@@ -20518,7 +20518,7 @@ const configuration = new openai_1.Configuration({ apiKey: API_KEY });
 const openAIApi = new openai_1.OpenAIApi(configuration);
 const askGPT = async (text, prompt) => {
     const { data: { choices: [{ message: { content: content } = { content: '' } }], }, } = await openAIApi.createChatCompletion({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-3.5-turbo-0301',
         messages: [
             {
                 role: openai_1.ChatCompletionRequestMessageRoleEnum.System,
