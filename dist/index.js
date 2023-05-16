@@ -26195,24 +26195,10 @@ async function main() {
     await Promise.all(languages.map(async (language) => {
         await Promise.all(allSrcFiles.map(async (file) => {
             const outputFilePath = `${language}/${file}`;
-            return await (0, translate_1.publishTranslate)(file, outputFilePath, language);
+            const translation = await (0, translate_1.publishTranslate)(file, outputFilePath, language);
+            console.log('Translation', translation);
         }));
     }));
-    // var allDirectoryMappings: string[] = await Promise.all(
-    //   languages.map(async (language): Promise<string> => {
-    //     const directoryMap = await getDirectories(`./${srcDir}`)
-    //     await Promise.all(
-    //       directoryMap.map(async (inputDir): Promise => {
-    //         // Publish a translation for each directory found
-    //         console.log('ABOUT TO PROCESS', inputDir)
-    //         const outputFilePath = `${language}/${inputDir}`
-    //         await publishTranslate(inputDir, outputFilePath, language)
-    //       }),
-    //     )
-    //     return directoryMap
-    //   }),
-    // )
-    // console.log('allDirectoryMappings', allDirectoryMappings)
 }
 main().catch((e) => (0, utils_1.postError)(e));
 
