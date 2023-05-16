@@ -20,7 +20,7 @@ export const askGPT = async (text: string, prompt: string): Promise<string> => {
       choices: [{ message: { content: content } = { content: '' } }],
     },
   } = await openAIApi.createChatCompletion({
-    model: 'gpt-3.5-turbo-0301',
+    model: 'gpt-3.5-turbo',
     messages: [
       {
         role: ChatCompletionRequestMessageRoleEnum.System,

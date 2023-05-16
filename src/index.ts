@@ -29,6 +29,7 @@ async function main() {
       await Promise.all(
         directoryMap.map(async (inputDir): Promise => {
           // Publish a translation for each directory found
+          console.log('ABOUT TO PROCESS', inputDir)
           const outputFilePath = `${language}/${inputDir}`
           await publishTranslate(inputDir, outputFilePath, language)
         }),
